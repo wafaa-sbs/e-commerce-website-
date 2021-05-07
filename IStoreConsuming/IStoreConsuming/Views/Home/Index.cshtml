@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+    
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        GET API DATA
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>Id</th>
+                <th>Categorie Name</th>
+                <th>Discription</th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Manager.GetAllCategories();
+
+    })
+    var Manager = {
+        GetAllCategories: function () {
+            var obj = "";
+            var serviceurl = "https://localhost:44324/categories/create";
+            window.Manager.GetAPI(serveUrl, onSuccess, onFailed);
+            function onSuccess(jsonData) {
+                obj = jsonData;
+                $.each(jsonData, function (i, item) {
+                    var rows = "<tr>" +
+                        "<td id='Id'>" + item.Id + "</td>" +
+                        "<td id='Name'>" + item.CategorieName + "</td>" +
+                        "<td id='Discription'>" + item.Discription + "</td>" +
+                        "</tr>";
+                    $('#Table').append(rows);
+                });
+            }
+            function onFailed(error) {
+                window.alert(error.statisText);
+            }
+            return obj;
+        },
+
+        GetAPI: function (serviceUrl, successCallback, errorCallback) {
+            $.ajax({
+                type: "get",
+                url: serviceUrl,
+                Datattype: "json",
+                error: errorCallback,
+            });
+        }
+
+
+</script>
